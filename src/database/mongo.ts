@@ -7,8 +7,8 @@ export async function connectToMongoDb() {
   await mongoose.connect(uri, {})
 }
 
-export async function createTransaction({eventId, status}: Pick<ITransaction, 'eventId' | 'status'>) {
-  const newTransaction: ITransaction = new TransactionModel({eventId, status});
+export async function createTransaction(eventId: string) {
+  const newTransaction: ITransaction = new TransactionModel({eventId, status: 'pending'});
   await newTransaction.save();
 }
 
