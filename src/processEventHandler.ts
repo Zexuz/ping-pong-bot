@@ -5,12 +5,13 @@ import {createPongPayload} from "./createPongPayload";
 import {setTransactionAsCompleted, setTransactionAsPending} from "./database/transactions";
 
 export function processEventHandler(contractBase: ethers.Contract) {
-  return async (pingEvent: PingEvent, nonce:number) => {
-    const transactionResponse = await sendPong(contractBase, pingEvent.transactionHash, nonce);
-
+  return async (pingEvent: PingEvent, nonce: number) => {
     const payload = createPongPayload(pingEvent);
     console.log(`Sending pong for ${payload.id}`)
-    await setTransactionAsPending(payload.id);
+
+    const transactionResponse = await sendPong(contractBase, pingEvent.transactionHash, nonce);
+
+    await setTransactionAsPending(payload.id, transactionResponse.hash);
 
     await transactionResponse.wait();
 

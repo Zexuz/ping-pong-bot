@@ -4,7 +4,10 @@ import {processEventHandler} from "./processEventHandler";
 
 
 jest.mock('./web3/contract', () => ({
-  sendPong: jest.fn(() => Promise.resolve({wait: () => Promise.resolve()}))
+  sendPong: jest.fn(() => Promise.resolve({
+    wait: () => Promise.resolve(),
+    hash: 'txHash'
+  }))
 }));
 
 jest.mock('./database/transactions', () => ({
@@ -26,7 +29,7 @@ describe('processEvent', () => {
 
     await handler(pingEvent, 1);
 
-    expect(setTransactionAsPending).toBeCalledWith('0x123-1');
+    expect(setTransactionAsPending).toBeCalledWith('0x123-1', 'txHash');
     expect(setTransactionAsCompleted).toBeCalledWith('0x123-1');
   });
 

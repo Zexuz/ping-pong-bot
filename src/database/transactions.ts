@@ -1,12 +1,14 @@
 import TransactionModel from '../models/transactions';
+import BlockModel from "../models/status";
+import {getEnvOrThrow} from "../utils/utils";
 
-export async function createTransaction(eventId: string) {
-  const newTransaction = new TransactionModel({eventId, status: 'received'});
+export async function createTransaction(eventId: string, receivedAtBlock: number) {
+  const newTransaction = new TransactionModel({eventId, status: 'received', receivedAtBlock});
   await newTransaction.save();
 }
 
-export async function setTransactionAsPending(eventId: string) {
-  await TransactionModel.updateOne({eventId}, {status: 'pending'});
+export async function setTransactionAsPending(eventId: string, transactionHash: string) {
+  await TransactionModel.updateOne({eventId}, {status: 'pending', txHash: transactionHash});
 
 }
 
@@ -20,5 +22,14 @@ export async function setTransactionAsCompleted(eventId: string) {
 
 export async function getPendingTransactions() {
   return TransactionModel.find({status: 'pending'});
+}
+
+export async function getReceivedTransactions() {
+  return TransactionModel.find({status: 'received'});
+}
+
+export async function getLastReceivedBlockNumber() {
+  const lastBlock = await BlockModel.findOne().sort({receivedAtBlock: -1});
+  return lastBlock ? lastBlock.lastProcessedBlock : parseInt(getEnvOrThrow('START_BLOCK'), 10);
 }
 
