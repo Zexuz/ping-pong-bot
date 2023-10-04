@@ -1,18 +1,10 @@
 import {ethers} from "ethers";
-import {setTransactionAsError} from "./database/transactions";
 import {retryTransaction} from "./retryTransaction";
 
 
 jest.mock('./database/transactions');
 
-
-const mockSetTransactionAsError = setTransactionAsError as jest.MockedFunction<typeof setTransactionAsError>;
-
-const mockProvider = {
-  getTransactionReceipt: jest.fn(),
-  getTransaction: jest.fn()
-}
-
+const mockWait = jest.fn();
 const mockWallet = {
   sendTransaction: jest.fn()
 }
@@ -23,20 +15,7 @@ describe('retryTransaction', () => {
     jest.clearAllMocks();
   });
 
-  it('should mark transaction as failed if it does not exist', async () => {
-    const txHash = '0xHash';
-    const eventId = '1';
-    mockProvider.getTransaction.mockResolvedValueOnce(null);
-
-
-    await retryTransaction(mockProvider as any, mockWallet as any, txHash, eventId);
-
-    expect(mockSetTransactionAsError).toHaveBeenCalledWith('1');
-  });
-
   it('should retry transaction with higher gas price', async () => {
-    const txHash = '0xHash';
-    const eventId = '1';
     const oldTransaction = {
       nonce: 1,
       to: '0xTo',
@@ -49,13 +28,13 @@ describe('retryTransaction', () => {
       data: '0xData',
       gasPrice: ethers.parseUnits('2', 'gwei'),
     };
-    mockProvider.getTransaction.mockResolvedValueOnce(oldTransaction);
-    mockWallet.sendTransaction.mockResolvedValueOnce({wait: () => Promise.resolve()});
 
-    await retryTransaction(mockProvider as any, mockWallet as any, txHash, eventId);
+    mockWallet.sendTransaction.mockResolvedValueOnce({wait: mockWait});
 
-    expect(mockProvider.getTransaction).toHaveBeenCalledWith(txHash);
+    await retryTransaction(mockWallet as any, oldTransaction as any);
+
     expect(mockWallet.sendTransaction).toHaveBeenCalledWith(newTransaction);
+    expect(mockWait).toHaveBeenCalledTimes(1);
   });
 });
 
