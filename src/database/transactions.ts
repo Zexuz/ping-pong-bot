@@ -1,5 +1,4 @@
 import TransactionModel from '../models/transactions';
-import BlockModel from "../models/status";
 import {getEnvOrThrow} from "../utils/utils";
 
 export async function createTransaction(eventId: string, receivedAtBlock: number) {
@@ -29,7 +28,7 @@ export async function getReceivedTransactions() {
 }
 
 export async function getLastReceivedBlockNumber() {
-  const lastBlock = await BlockModel.findOne().sort({receivedAtBlock: -1});
-  return lastBlock ? lastBlock.lastProcessedBlock : parseInt(getEnvOrThrow('START_BLOCK'), 10);
+  const lastBlock = await TransactionModel.findOne().sort({receivedAtBlock: -1});
+  return lastBlock ? lastBlock.receivedAtBlock : parseInt(getEnvOrThrow('START_BLOCK'), 10);
 }
 

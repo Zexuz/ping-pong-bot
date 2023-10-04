@@ -1,5 +1,5 @@
 import {Contract} from "ethers";
-import {getLastProcessedBlock} from "./database/status";
+import {getLastReceivedBlockNumber} from "./database/transactions";
 
 async function getEventsSinceLastBlock(contract: Contract, lastProcessedBlock: number) {
   const filter = contract.filters.Ping();
@@ -7,7 +7,7 @@ async function getEventsSinceLastBlock(contract: Contract, lastProcessedBlock: n
 }
 
 export async function getMissedEvents(contract: Contract) {
-  const lastProcessedBlock = await getLastProcessedBlock();
+  const lastProcessedBlock = await getLastReceivedBlockNumber();
 
   return await getEventsSinceLastBlock(contract, lastProcessedBlock);
 }
