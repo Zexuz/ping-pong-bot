@@ -1,5 +1,5 @@
 import {Contract} from "ethers";
-import {getLastReceivedBlockNumber} from "./database/transactions";
+import {getLastReceivedBlockNumber} from "../database/transactions";
 
 async function getEventsSinceLastBlock(contract: Contract, lastProcessedBlock: number) {
   const filter = contract.filters.Ping();

@@ -1,9 +1,9 @@
 import {
   setTransactionAsCompleted,
   setTransactionAsError
-} from "./database/transactions";
+} from "../database/transactions";
 import {retryTransaction} from "./retryTransaction";
-import {sleep} from "./utils/utils";
+import {sleep} from "../utils/utils";
 import {retryOrFailTransaction} from "./retryOrFailTransaction";
 
 

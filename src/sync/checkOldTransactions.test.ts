@@ -1,5 +1,5 @@
-import {getPendingTransactions, setTransactionAsCompleted, getReceivedTransactions} from "./database/transactions";
-import {sleep} from "./utils/utils";
+import {getPendingTransactions, setTransactionAsCompleted, getReceivedTransactions} from "../database/transactions";
+import {sleep} from "../utils/utils";
 import {retryOrFailTransaction} from "./retryOrFailTransaction";
 import {checkOldTransactions} from "./checkOldTransactions";
 

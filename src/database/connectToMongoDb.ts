@@ -5,3 +5,7 @@ export async function connectToMongoDb() {
   const uri = getEnvOrThrow('MONGO_URI');
   await mongoose.connect(uri, {})
 }
+
+export async function disconnectFromMongoDb() {
+  await mongoose.disconnect();
+}
