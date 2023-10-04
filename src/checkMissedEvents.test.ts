@@ -1,11 +1,11 @@
 import {ethers} from "ethers";
-import {getUnprocessedEvents} from "./getUnprocessedEvents";
+import {getMissedEvents} from "./getMissedEvents";
 import {checkMissedEvents} from "./checkMissedEvents";
 
 
-jest.mock('./getUnprocessedEvents');
+jest.mock('./getMissedEvents');
 
-const mockedGetUnprocessedEvents = getUnprocessedEvents as jest.MockedFunction<typeof getUnprocessedEvents>;
+const mockedGetUnprocessedEvents = getMissedEvents as jest.MockedFunction<typeof getMissedEvents>;
 
 describe('checkMissedEvents', () => {
 
