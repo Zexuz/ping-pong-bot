@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
-import {setTransactionAsCompleted, setTransactionAsError} from "./database/transactions";
+import {setTransactionAsCompleted, setTransactionAsError} from "../database/transactions";
 import {retryTransaction} from "./retryTransaction";
-import {sleep} from "./utils/utils";
+import {sleep} from "../utils/utils";
 
 const MAX_RETRIES = 3;
 

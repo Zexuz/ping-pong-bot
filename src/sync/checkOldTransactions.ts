@@ -1,14 +1,15 @@
-import {ethers, Provider, Wallet} from "ethers";
-import {getPendingTransactions, getReceivedTransactions, setTransactionAsCompleted} from "./database/transactions";
-import {sleep} from "./utils/utils";
+import {Provider, Wallet} from "ethers";
+import {getPendingTransactions, getReceivedTransactions, setTransactionAsCompleted} from "../database/transactions";
+import {sleep} from "../utils/utils";
 import {retryOrFailTransaction} from "./retryOrFailTransaction";
-import {ThreadSafeQueue} from "./queue";
-import {PingEvent} from "./types";
+import {ThreadSafeQueue} from "../queue";
+import {PingEvent} from "../types";
 
 export async function checkOldTransactions(provider: Provider, wallet: Wallet, queue: ThreadSafeQueue<PingEvent>) {
   await checkReceivedTransaction(queue);
   await checkPendingTransactions(provider, wallet);
 }
+
 async function checkPendingTransactions(provider: Provider, wallet: Wallet) {
   const pendingTransactions = await getPendingTransactions();
   console.log(`Found ${pendingTransactions.length} pending transactions`)
