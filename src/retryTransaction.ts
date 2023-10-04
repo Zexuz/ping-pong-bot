@@ -1,4 +1,4 @@
-import {ethers} from "ethers/lib.esm";
+import {ethers} from "ethers";
 import {setTransactionAsCompleted, setTransactionAsError} from "./database/transactions";
 
 const GAS_PRICE_INCREMENT = 1; // in Gwei
