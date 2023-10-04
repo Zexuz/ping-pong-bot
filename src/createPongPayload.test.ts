@@ -1,5 +1,5 @@
 import {createPongPayload} from "./createPongPayload";
-import {PingEvent} from "./asd.test";
+import {PingEvent} from "./types";
 
 describe('PongPayloadFactory', () => {
 

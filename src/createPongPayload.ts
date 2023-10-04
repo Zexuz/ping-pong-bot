@@ -1,4 +1,4 @@
-import {PingEvent} from "./asd.test";
+import {PingEvent} from "./types";
 
 export function createPongPayload(pingEvent: PingEvent) {
   return {
