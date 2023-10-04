@@ -1,4 +1,4 @@
-import {ethers} from "ethers";
+import {ContractEventPayload, ethers} from "ethers";
 import {getEnvOrThrow} from "../utils/utils";
 
 const ABI = [
@@ -79,11 +79,11 @@ export function getContractBase(wallet: ethers.Wallet) {
   return new ethers.Contract(contractAddress, ABI, wallet);
 }
 
-export function sendPong(contract: ethers.Contract, txHash:string):Promise<ethers.TransactionResponse> {
-  return contract.pong(txHash);
+export function sendPong(contract: ethers.Contract, txHash:string, nonce:number):Promise<ethers.TransactionResponse> {
+  return contract.pong(txHash, {nonce: nonce});
 }
 
 export function onPing(contract: ethers.Contract, callback: (event: ethers.EventLog | ethers.Log) => Promise<void>) {
-  return contract.on("Ping", callback);
+  return contract.on("Ping", (event:ContractEventPayload) => callback(event.log));
 }
 
