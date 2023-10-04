@@ -21,6 +21,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "async-mutex": "^0.4.0",
     "ethers": "^6.7.1"
   }
 }
