@@ -19,6 +19,10 @@ export async function setTransactionAsCompleted(eventId: string) {
   await TransactionModel.updateOne({eventId}, {status: 'completed'});
 }
 
+export async function setTransactionAsError(eventId: string) {
+  await TransactionModel.updateOne({eventId}, {status: 'error'});
+}
+
 export async function getPendingTransactions() {
   return TransactionModel.find({status: 'pending'});
 }
@@ -29,6 +33,6 @@ export async function getReceivedTransactions() {
 
 export async function getLastReceivedBlockNumber() {
   const lastBlock = await TransactionModel.findOne().sort({receivedAtBlock: -1});
-  return lastBlock ? lastBlock.receivedAtBlock : parseInt(getEnvOrThrow('START_BLOCK'), 10);
+  return lastBlock?.receivedAtBlock ? lastBlock.receivedAtBlock : parseInt(getEnvOrThrow('START_BLOCK'), 10);
 }
 
