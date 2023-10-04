@@ -19,4 +19,8 @@
 * Put the message on the queue.
 * Process the message from the queue one by one
 
+## Reflections
+This application would be perfect for AWS lambda + SQS architecture, then you don't need a mongodb server, and it would make the whole flow even more scalable and reliable.
+
+
 
